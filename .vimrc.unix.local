@@ -1,0 +1,114 @@
+" Personal customization of VIM
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Syntax configuration stuff
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Show the matching part of the pair for [] {} ()
+set showmatch
+
+" enable all Python syntax highlighting features
+let python_highlight_all = 1
+
+" Set utf8 as standard encoding
+set encoding=utf8
+
+" Enable syntax highlighting
+syntax enable
+
+" Enable 256 colors palette in Gnome Terminal
+if $COLORTERM == 'gnome-terminal'
+    set t_Co=256
+endif
+
+" Set extra options when running in GUI mode
+if has("gui_running")
+    set guioptions-=T
+    set guioptions-=e
+    set t_Co=256
+    set guitablabel=%M\ %t
+endif
+
+" Set utf8 as standard encoding and en_US as the standard language
+set encoding=utf8
+
+" Use Unix as the standard file type
+set ffs=unix,dos,mac
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Text, tab and indent related
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Use spaces instead of tabs
+set expandtab
+
+" Be smart when using tabs ;)
+set smarttab
+
+" 1 tab == 4 spaces
+set shiftwidth=4
+set tabstop=4
+
+set ai " Auto indent
+set si " Smart indent
+set wrap " Wrap lines
+
+" visible whitespaces
+function! Whitespace()
+    if !exists('b:ws')
+        highlight Conceal ctermbg=NONE ctermfg=240 cterm=NONE guibg=NONE guifg=#585858 gui=NONE
+        highlight link Whitespace Conceal
+        let b:ws = 1
+    endif
+
+    syntax clear Whitespace
+    syntax match Whitespace / / containedin=ALL conceal cchar=·
+    setlocal conceallevel=2 concealcursor=c
+endfunction
+
+augroup Whitespace
+    autocmd!
+    autocmd BufEnter,WinEnter * call Whitespace()
+augroup END
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" More stuff about UI
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set wildmenu " visual autocomplete for command menu
+
+" colorscheme configured""""""
+
+" colorscheme spring-night
+set background=dark
+
+
+" Size of the current window in gvim
+set lines=55 columns=170
+
+" Personal typography which i love
+set guifont=DejaVu_Sans_Mono:h10
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Things for 79 line length control
+" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set colorcolumn=79
+set wrap
+
+nnoremap <Leader>H :call<SID>LongLineHLToggle()<cr>
+hi OverLength ctermbg=none cterm=none
+match OverLength /\%>79v/
+fun! s:LongLineHLToggle()
+ if !exists('w:longlinehl')
+  let w:longlinehl = matchadd('ErrorMsg', '.\%>79v', 0)
+  echo "Long lines highlighted"
+ else
+  call matchdelete(w:longlinehl)
+  unl w:longlinehl
+  echo "Long lines unhighlighted"
+ endif
+endfunction
+
+" Linebreak on 500 characters
+set lbr
+set tw=79
