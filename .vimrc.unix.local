@@ -46,12 +46,18 @@ set expandtab
 set smarttab
 
 " 1 tab == 4 spaces
-set shiftwidth=4
-set tabstop=4
+set shiftwidth=2
+set tabstop=2
 
 set ai " Auto indent
 set si " Smart indent
 set wrap " Wrap lines
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Tab configuration by filetype
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+autocmd Filetype python setlocal tabstop=4 shiftwidth=4 expandtab
+autocmd Filetype java setlocal tabstop=4 shiftwidth=4 expandtab
 
 " visible whitespaces
 function! Whitespace()
@@ -86,7 +92,7 @@ set background=dark
 set lines=55 columns=170
 
 " Personal typography which i love
-set guifont=DejaVu_Sans_Mono:h10
+set guifont=DejaVu_Sans_Mono:h12
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
